@@ -26,7 +26,7 @@ def get_all_users(db: Session):
     return user
 
 # get a single user
-def get_user(db: Session, user_id: int) -> DbUser:
+def get_user(db: Session, user_id: int):
     user = db.query(DbUser).filter(DbUser.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
@@ -35,6 +35,8 @@ def get_user(db: Session, user_id: int) -> DbUser:
 # update a single user
 def update_user(db: Session, user_id: int, request:UserBase):
     user = db.query(DbUser).filter(DbUser.id==user_id)
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     user.update({
         DbUser.username: request.username,
         DbUser.email: request.email,
