@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+# creation of a database definition
 SQLALCHEMY_DATABASE_URL = "sqlite:///./fastapi-practice.db"
 
 engine = create_engine(
