@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from schemas import ArticleBase
+from exceptions import StoryException
 from db.models import DbArticle
 from fastapi import status, HTTPException
 
@@ -7,6 +8,8 @@ from fastapi import status, HTTPException
 
 # create an article
 def create_article(db: Session, request: ArticleBase):
+    if request.content.startswith('Once upon a time'):
+        raise StoryException('Stories not allowed!')
     new_article = DbArticle(
         title = request.title,
         content = request.content,
@@ -29,5 +32,5 @@ def get_all_articles(db: Session):
 def get_article(db: Session, article_id: int):
     article = db.query(DbArticle).filter(DbArticle.id == article_id).first()
     if article is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f'Article with id {article_id} not found')
     return article

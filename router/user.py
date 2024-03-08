@@ -34,6 +34,6 @@ def update_user(user_id: int, request: UserBase, db: Session = Depends(get_db)):
 @router.delete('/{id}/delete', status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(user_id: int ,db: Session = Depends(get_db)):
     return db_user.delete_user(db, user_id)
- 
+    # algorithm for cascade. when the user associated with an article gets deleted
     
         

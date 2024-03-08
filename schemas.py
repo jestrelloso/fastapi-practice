@@ -46,6 +46,5 @@ class ArticleDisplay(BaseModel):
     content: str
     published: bool
     user: User
-
     class Config():
         orm_mode = True
