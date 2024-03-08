@@ -32,9 +32,16 @@ def get_user(db: Session, user_id: int):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f'User with id {user_id} not found')
     return user
 
+# get user by username
+def get_user_by_username(db: Session, username: str):
+    user = db.query(DbUser).filter(DbUser.username == username).first()
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f'User with username {username} not found')
+    return user
+
 # update a single user
 def update_user(db: Session, user_id: int, request:UserBase):
-    user = db.query(DbUser).filter(DbUser.id == user_id)
+    user = db.query(DbUser).filter(DbUser.id ==user_id)
     if user.first() is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f'User with id {user_id} not found')
     user.update({
