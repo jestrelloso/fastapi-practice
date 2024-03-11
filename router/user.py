@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_user
 from typing import List
+from auth.oauth2 import oauth2_scheme, get_current_user
 
 router = APIRouter(
     prefix='/user',
@@ -22,8 +23,11 @@ def get_all_users(db: Session = Depends(get_db)):
 
 # Read a Single User
 @router.get('/{id}', response_model=UserDisplay, status_code=status.HTTP_200_OK)
-def get_user(user_id: int, db: Session = Depends(get_db)):
-    return db_user.get_user(db, user_id)
+def get_user(user_id: int, db: Session = Depends(get_db), current_user: UserBase = Depends(get_current_user)):
+    return {
+        'data' :  db_user.get_user(db, user_id),
+        'current_user': current_user
+    }
     
 # Update user
 @router.put('/{id}/update')
