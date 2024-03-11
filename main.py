@@ -3,6 +3,7 @@ from router import blog_get
 from router import blog_post
 from router import user
 from auth import authentication
+from router import file
 from router import article
 from router import product
 from db import models
@@ -10,10 +11,12 @@ from exceptions import StoryException
 from db.database import engine
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 app.include_router(blog_get.router)
 app.include_router(blog_post.router)
+app.include_router(file.router)
 app.include_router(authentication.router)
 app.include_router(user.router)
 app.include_router(article.router)
@@ -48,3 +51,6 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers = ["*"],
 )
+
+#making the files statically availabe and folder to be accessible via /files/filename.contenttype endpoint 
+app.mount('/files', StaticFiles(directory="files"), name='files')
