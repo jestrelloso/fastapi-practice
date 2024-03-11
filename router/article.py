@@ -13,12 +13,12 @@ router = APIRouter(
 
 # Create Article using a database / database model / schema
 @router.post('/', response_model=ArticleDisplay)
-async def create_article(request: ArticleBase, db: Session = Depends(get_db)):
+async def create_article(request: ArticleBase, db: Session = Depends(get_db),  current_user: UserBase = Depends(get_current_user)):
     return db_article.create_article(db, request)
 
 # Read All Articles
 @router.get('/', response_model=List[ArticleDisplay])
-async def get_all_articles(db: Session = Depends(get_db)):
+async def get_all_articles(db: Session = Depends(get_db),  current_user: UserBase = Depends(get_current_user)):
     return db_article.get_all_articles(db)
 
 # Read a Single Article
@@ -32,10 +32,10 @@ async def get_article(article_id: int, db: Session = Depends(get_db), current_us
 
 # update a single article
 @router.put('/{id}/update')
-async def update_article(article_id: int, request: ArticleBase, db: Session = Depends(get_db)):
+async def update_article(article_id: int, request: ArticleBase, db: Session = Depends(get_db),  current_user: UserBase = Depends(get_current_user)):
     return db_article.update_article(db, article_id, request)
 
 #delete a single article
 @router.delete('/{id}/delete', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_article(article_id: int, db: Session = Depends(get_db)):
+async def delete_article(article_id: int, db: Session = Depends(get_db),  current_user: UserBase = Depends(get_current_user)):
     return db_article.delete_article(db, article_id)
