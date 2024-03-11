@@ -11,8 +11,9 @@ router=APIRouter(
     tags=['authentication']
 )
 
+# token route
 @router.post('/token')
-def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(models.DbUser).filter(models.DbUser.username == request.username).first()
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")

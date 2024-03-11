@@ -5,6 +5,7 @@ from typing import List
 
 #RELATIONSHIP DISPLAY
 class Article(BaseModel): # list to display on UserDisplay
+    id: int
     title: str
     content: str
     published: bool

@@ -4,7 +4,7 @@ from db.models import DbUser
 from db.hash import Hash
 from fastapi import status, HTTPException
 
-#FUNCTIONALITY TO WRITE TO DATABASE
+#FUNCTIONALITY TO WRITE, READ, UPDATE AND DELETE TO DATABASE
 
 # create a user
 def create_user(db: Session, request: UserBase):

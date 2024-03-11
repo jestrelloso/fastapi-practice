@@ -11,7 +11,7 @@ class DbUser(Base):
     username = Column(String)
     email = Column(String)
     password = Column(String)
-    article = relationship("DbArticle", back_populates='user')
+    article = relationship("DbArticle", back_populates='user', cascade="all, delete")
 
 class DbArticle(Base):
     __tablename__ = 'articles'
@@ -19,5 +19,5 @@ class DbArticle(Base):
     title = Column(String)
     content = Column(String)
     published = Column(Boolean)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
     user = relationship("DbUser", back_populates='article')
